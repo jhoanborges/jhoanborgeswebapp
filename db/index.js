@@ -2,7 +2,7 @@ import Sequelize from 'sequelize';
 
 const sequelize = new Sequelize('database', 'username', 'password', {
   dialect: 'sqlite',
-  storage: './database.sqlite',
+  storage: './db.db',
 });
 
 export const PhoneDirectory = sequelize.define('phoneDirectory', {
@@ -10,5 +10,7 @@ export const PhoneDirectory = sequelize.define('phoneDirectory', {
   phone: Sequelize.STRING,
   email: Sequelize.STRING,
 });
+
+sequelize.sync();
 
 export default sequelize;

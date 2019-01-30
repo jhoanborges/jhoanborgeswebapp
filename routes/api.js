@@ -4,10 +4,10 @@ import { PhoneDirectory } from '../db';
 
 const router = Router();
 
-router.get('/phoneDirectory', async (req, res) => {
+router.get('/contacts', async (req, res) => {
   const table = await PhoneDirectory.findAll();
 
-  res.json(table.toJSON());
+  res.json(table);
 });
 
 router.put('/contact', async (req, res) => {
@@ -21,25 +21,46 @@ router.put('/contact', async (req, res) => {
     email,
     name,
     phone,
-  });
+  }, { returning: true });
 
   res.json(newContact.toJSON());
 });
 
-router.post('/contact', async (req, res) => {
-  const { id, name, email, phone } = req.body;
+router.post('/contact/:contactId', async (req, res) => {
+  const { contactId } = req.params;
+  const { name, email, phone } = req.body;
 
-  if (typeof id !== 'number') {
+  if (Number.isNaN(Number(contactId))) {
     res.status(400).send(createError(400));
+  } else {
+    let contact = await PhoneDirectory.findOne({ where: { id: Number(contactId) } });
+
+    if (!contact) {
+      res.status(404).send(createError(404));
+    }
+
+    await PhoneDirectory.update({
+      name: name || contact.name,
+      email: email || contact.email,
+      phone: phone || contact.phone,
+    }, { where: { id: Number(contactId) } });
+
+    contact = await PhoneDirectory.findOne({ where: { id: Number(contactId) } });
+
+    res.send(contact.toJSON());
   }
+});
 
-  const findedContact = await PhoneDirectory.finda;
+router.delete('/contact/:contactId', async (req, res) => {
+  const { contactId } = req.params;
 
-  const updatedContact = await PhoneDirectory.update({
-    email: email || ,
-    name,
-    phone,
-  });
+  if (typeof contactId !== 'number') {
+    res.status(400).send(createError(400));
+  } else {
+    await PhoneDirectory.destroy({ where: { id: Number(contactId) } });
+
+    res.send(true);
+  }
 });
 
 export default router;
