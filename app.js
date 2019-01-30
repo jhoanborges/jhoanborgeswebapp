@@ -1,16 +1,28 @@
 import createError from 'http-errors';
 import express from 'express';
+import exphbs from 'express-handlebars';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
+import easylivereload from 'easy-livereload';
 
 import indexRouter from './routes/index';
 
 const app = express();
 
+app.use(easylivereload(
+  {
+    watchDirs: [
+      path.join(__dirname, 'views'),
+    ],
+    app,
+  },
+));
+
 // view engine setup
+app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
+app.set('view engine', 'handlebars');
 
 app.use(logger('dev'));
 app.use(express.json());
