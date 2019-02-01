@@ -30,7 +30,7 @@ const renderRows = () => {
     row.appendChild(emailField);
     const buttonField = document.createElement('td');
     const button = document.createElement('button');
-    button.innerText = 'Eliminar';
+    button.innerText = 'Removxyz';
     button.onclick = () => deleteRow(id);
     buttonField.appendChild(button);
     row.appendChild(buttonField);
