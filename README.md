@@ -9,7 +9,7 @@ The QA team found a few defects that need to be fixed along with the new feature
 
 ### Feature Description:
 
-- Add a new field called ‚ÄúAddress‚Äù
+- Add a new field called ìAddressî
 - Implement a gesture that do the following:
   - Become editable when double clicked
   - After edited, the information should be saved if the user hits enter.
@@ -27,7 +27,7 @@ The QA team found a few defects that need to be fixed along with the new feature
 
 ### Considerations:
 
-- You can use any framework or library for the ‚ÄúViews‚Äù and modified the code as required.
+- You can use any framework or library for the ìViewsî and modified the code as required.
 - You need to fix the existent or new errors
 - You can add styling if you believe it would provide a plus
 
@@ -43,7 +43,7 @@ Once your feature is finished, merge it into develop and create a Pull Request w
 
 ### Software requirements
 
-- NodeJS 10.x+ whit NPM
+- NodeJS 10.x+ with NPM
 - Modern browser like Chrome, Firefix, etc
 - Code Editor
 
