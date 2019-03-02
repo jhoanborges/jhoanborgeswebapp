@@ -9,6 +9,7 @@ export const PhoneDirectory = sequelize.define('phoneDirectory', {
   name: Sequelize.STRING,
   phone: Sequelize.STRING,
   email: Sequelize.STRING,
+  address: Sequelize.STRING,
 });
 
 sequelize.sync();

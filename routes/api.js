@@ -11,24 +11,27 @@ router.get('/contacts', async (req, res) => {
 });
 
 router.put('/contact', async (req, res) => {
-  const { name, email, phone } = req.body;
-
+  const { name, email, phone, address } = req.body;
+/*
   if (typeof name !== 'string' || typeof email === 'string' || typeof phone !== 'string') {
     res.status(400).send(createError(400));
   }
-
+*/
   const newContact = await PhoneDirectory.create({
     email,
     name,
     phone,
+    address,
   }, { returning: true });
 
   res.json(newContact.toJSON());
 });
 
 router.post('/contact/:contactId', async (req, res) => {
+
+
   const { contactId } = req.params;
-  const { name, email, phone } = req.body;
+  const { name, email, phone, address } = req.body;
 
   if (Number.isNaN(Number(contactId))) {
     res.status(400).send(createError(400));
@@ -43,6 +46,7 @@ router.post('/contact/:contactId', async (req, res) => {
       name: name || contact.name,
       email: email || contact.email,
       phone: phone || contact.phone,
+      address: address || contact.address,
     }, { where: { id: Number(contactId) } });
 
     contact = await PhoneDirectory.findOne({ where: { id: Number(contactId) } });
@@ -51,10 +55,35 @@ router.post('/contact/:contactId', async (req, res) => {
   }
 });
 
+
+
+router.post('/update/:contactId', async (req, res) => {
+  const { contactId } = req.params;
+
+  if (Number.isNaN(Number(contactId))) {
+    res.status(400).send(createError(400));
+  } else {
+
+    await PhoneDirectory.update({
+      address: address || contact.address,
+    }, { where: { id: Number(contactId) } });
+
+
+    contact = await PhoneDirectory.findOne({ where: { id: Number(contactId) } });
+
+
+    res.send(contact.toJSON());
+  }
+});
+
+
+
+
+
 router.delete('/contact/:contactId', async (req, res) => {
   const { contactId } = req.params;
 
-  if (typeof contactId !== 'number') {
+  if (Number.isNaN(Number(contactId))) {
     res.status(400).send(createError(400));
   } else {
     await PhoneDirectory.destroy({ where: { id: Number(contactId) } });
